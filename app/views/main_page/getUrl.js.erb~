@@ -1,0 +1,2 @@
+alert("Title and text inside <p> tags is in database now!");
+$("#url").val('');

@@ -29,10 +29,10 @@ gem 'devise'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'autoprefixer-rails'
- 
+gem 'rest-client'
 # Use Unicorn as the app server
 # gem 'unicorn'
-
+gem 'rufus-scheduler'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
