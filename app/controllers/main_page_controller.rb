@@ -20,7 +20,11 @@ class MainPageController < ApplicationController
    # puts @data
     @data = doc.xpath("//p")
     @data =  Sanitize.clean(@data)
-   # puts @data
+    if current_user
+      @content = ReadingContent.create(user_id: current_user.id, title: title, content: @data,url: @url)   
+   
+    end
+	 # puts @data
     respond_to do |format|
       format.html {redirect_to root_path}
       format.js {}
