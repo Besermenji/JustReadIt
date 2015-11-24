@@ -15,16 +15,22 @@ class MainPageController < ApplicationController
   
   def getUrl
     @url = params[:url]
+    speed_page = params[:speed]
+    color = params[:color]
+   # puts "speeeeeeeeeeeeeed ", speed
+   # puts "color_randoooooooom", color_random
     #initializing variables for parsing page source
     agent = Mechanize.new
     page = agent.get(@url)
     title = page.title
     doc = Nokogiri::HTML(page.body)
     #is color randomized or not?
-    color_random = true
+    color ? color_random = true : color_random = false
     #what is speed of txt?
-    
-    speed = 300
+        
+    speed = speed_page[0..2].to_i
+   # puts color_random
+   # puts speed
     #if url is from medium
     if @url.include? "//medium."
      # puts "start page"
