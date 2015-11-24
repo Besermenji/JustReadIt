@@ -5,7 +5,7 @@ require 'rest_client'
 post '/word/?' do
   jdata = params[:data]
   word = JSON.parse(jdata)
-  puts word  
+  randomizeAndSend(word["word"],word["color_random"],"http://localhost:4568")  
 end
 
 def randomizeAndSend(word, color_random,stream_app_adress)

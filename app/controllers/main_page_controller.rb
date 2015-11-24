@@ -21,10 +21,10 @@ class MainPageController < ApplicationController
     title = page.title
     doc = Nokogiri::HTML(page.body)
     #is color randomized or not?
-    color_random = false
+    color_random = true
     #what is speed of txt?
     
-    speed = 150
+    speed = 300
     #if url is from medium
     if @url.include? "//medium."
      # puts "start page"

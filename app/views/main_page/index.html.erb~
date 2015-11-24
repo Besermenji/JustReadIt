@@ -5,10 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+ 
 
 
 	<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
-         <script src="pusher.js"></script> 
+         
+<script src="pusher_stream.js"></script>
   </head>
   <body>
 
@@ -51,7 +53,5 @@
                 </div>
         </div>
 </div>
-
-
   </body>
 </html>

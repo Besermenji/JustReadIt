@@ -5,10 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+ 
 
 
 	<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
-         <script src="pusher.js"></script> 
+        <script>
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
+
+    var pusher = new Pusher('eb7ba3e6d950f8d86a1f', {
+      encrypted: true
+    });
+    var channel = pusher.subscribe('text_streamer');
+    channel.bind('my_event', function(data) {
+      
+      $('#url').val(data.message);
+      $('#url').css("color",data.color);
+    });
+  </script> 
+        
   </head>
   <body>
 
@@ -51,7 +70,5 @@
                 </div>
         </div>
 </div>
-
-
   </body>
 </html>
