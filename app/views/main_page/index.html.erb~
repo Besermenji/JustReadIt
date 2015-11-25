@@ -9,31 +9,12 @@
 
 
 	<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
-        <script>
-    // Enable pusher logging - don't include this in production
-    Pusher.log = function(message) {
-      if (window.console && window.console.log) {
-        window.console.log(message);
-      }
-    };
-    var count = 0;
-    var pusher = new Pusher('eb7ba3e6d950f8d86a1f', {
-      encrypted: true
-    });
-    var channel = pusher.subscribe('text_streamer');
-    channel.bind('my_event', function(data) {
-      if(count == 0 ){
-       $("#button_container").append('<%=button_to "Pause",{ action: "pause"},:method=> :get, remote: true %>');
-
-      }
-      $('#url').val(data.message);
-      $('#url').css("color",data.color);
-      count += 1;
-    });
-  </script> 
+ 
         
   </head>
   <body>
+  
+
 
 <div class="container-fluid">
 	<div class="row">
@@ -81,17 +62,53 @@
 			        </div>
 				</div>
                                 </div>
+                                     <%=hidden_field_tag 'token' %>
 				      <%= submit_tag "ReadIt!", class: "btn btn-default btn-primary center-block" %>  
 			<%end%>
 		</div>
 		<div class="col-md-3"></div>
 	</div>
 </div>
-<div class="container-fluid">
+<br>
+<div id="play_pause" class="container-fluid">
         <div class="row">
-                <div id="button_container" class="col-md-12">
+                 <div class="col-md-3"></div>
+                <div id="pause" class="col-md-3">
+                         <%=form_tag("/pause", method: "post",remote:true) do %>
+                             <%= submit_tag "PAUSE", class: "btn btn-default btn-primary center-block" %>
+                        <%end%>          
                 </div>
+                 <div id="resume" class="col-md-3">
+                <%=form_tag("/resume", method: "post",remote:true) do %>
+                             <%= submit_tag "RESUME", class: "btn btn-default btn-primary center-block" %>
+                        <%end%>
+
+                 </div>
+	 
+
+                <div class="col-md-3"></div>
         </div>
 </div>
+
+
+     <script>
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
+    var pusher = new Pusher('eb7ba3e6d950f8d86a1f', {
+      encrypted: true
+    });
+    var x = Math.random().toString(36).substring(7);
+    $("#token").val(x);
+    //alert(x);
+    var channel = pusher.subscribe(x);
+    channel.bind('my_event', function(data) {
+      $('#url').val(data.message);
+      $('#url').css("color",data.color);
+    });
+  </script> 
   </body>
 </html>

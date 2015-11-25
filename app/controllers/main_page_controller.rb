@@ -42,7 +42,10 @@ class MainPageController < ApplicationController
     @url = params[:url]
     speed_page = params[:speed]
     color = params[:color]
+   # session[:token] = params[:token]
     #some initializing
+    
+    @toki = params[:token]
     agent = Mechanize.new
     page = agent.get(@url)
     title = page.title
@@ -83,10 +86,11 @@ class MainPageController < ApplicationController
 
   protected
   def killCurrentJob
-      if session[:job_id]
-      Rufus::Scheduler.singleton.job(session[:job_id]).unschedule
-      Rufus::Scheduler.singleton.job(session[:job_id]).kill
-      puts "killed him"
+     # puts session[:job_id]
+      if session[:job_id] && Rufus::Scheduler.singleton.job(session[:job_id]) != nil
+        Rufus::Scheduler.singleton.job(session[:job_id]).unschedule
+        Rufus::Scheduler.singleton.job(session[:job_id]).kill
+     # puts "killed him"
     end
 
   end 
@@ -96,7 +100,7 @@ class MainPageController < ApplicationController
       job = Rufus::Scheduler.singleton.every @speed  do
        # Rails.logger.info "time flies, it's now #{Time.now}"
         if !@words_perma.empty?
-          sendJSON(@color_random, @words_perma.shift, "http://localhost:4567")    
+          sendJSON(@color_random, @words_perma.shift, "http://localhost:4567", @toki)    
         end
       end 
       job
@@ -106,8 +110,8 @@ class MainPageController < ApplicationController
  
   
   protected
-  def sendJSON(color_random, word, color_app_adress)
+  def sendJSON(color_random, word, color_app_adress,channel)
   # iterate through words and send them to coloring app
-    response = RestClient.post color_app_adress + '/word', {:data=> {word: word, color_random: color_random}.to_json},{:content_type =>:json,:accept=> :json}
+    response = RestClient.post color_app_adress + '/word', {:data=> {word: word, color_random: color_random, channel: channel}.to_json},{:content_type =>:json,:accept=> :json}
   end  
 end

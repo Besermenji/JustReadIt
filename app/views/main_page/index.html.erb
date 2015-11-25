@@ -9,25 +9,12 @@
 
 
 	<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
-        <script>
-    // Enable pusher logging - don't include this in production
-    Pusher.log = function(message) {
-      if (window.console && window.console.log) {
-        window.console.log(message);
-      }
-    };
-    var pusher = new Pusher('eb7ba3e6d950f8d86a1f', {
-      encrypted: true
-    });
-    var channel = pusher.subscribe('text_streamer');
-    channel.bind('my_event', function(data) {
-      $('#url').val(data.message);
-      $('#url').css("color",data.color);
-    });
-  </script> 
+ 
         
   </head>
   <body>
+  
+
 
 <div class="container-fluid">
 	<div class="row">
@@ -75,6 +62,7 @@
 			        </div>
 				</div>
                                 </div>
+                                     <%=hidden_field_tag 'token' %>
 				      <%= submit_tag "ReadIt!", class: "btn btn-default btn-primary center-block" %>  
 			<%end%>
 		</div>
@@ -101,5 +89,26 @@
                 <div class="col-md-3"></div>
         </div>
 </div>
+
+
+     <script>
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
+    var pusher = new Pusher('eb7ba3e6d950f8d86a1f', {
+      encrypted: true
+    });
+    var x = Math.random().toString(36).substring(7);
+    $("#token").val(x);
+    //alert(x);
+    var channel = pusher.subscribe(x);
+    channel.bind('my_event', function(data) {
+      $('#url').val(data.message);
+      $('#url').css("color",data.color);
+    });
+  </script> 
   </body>
 </html>
