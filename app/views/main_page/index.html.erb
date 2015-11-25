@@ -70,7 +70,7 @@
 	</div>
 </div>
 <br>
-<div id="play_pause" class="container-fluid">
+<div id="play_pause" class="container-fluid hidden">
         <div class="row">
                  <div class="col-md-3"></div>
                 <div id="pause" class="col-md-3">
@@ -101,11 +101,13 @@
     var pusher = new Pusher('eb7ba3e6d950f8d86a1f', {
       encrypted: true
     });
+    var count = 0;
     var x = Math.random().toString(36).substring(7);
     $("#token").val(x);
     //alert(x);
     var channel = pusher.subscribe(x);
     channel.bind('my_event', function(data) {
+      $("#play_pause").removeClass('hidden');
       $('#url').val(data.message);
       $('#url').css("color",data.color);
     });

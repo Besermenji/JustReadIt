@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
+  get "recent", to: "reading_contents#index"
   post "stop", to: "main_page#stop"
   post 'resume', to: "main_page#resume"
   post 'pause', to: 'main_page#pause'

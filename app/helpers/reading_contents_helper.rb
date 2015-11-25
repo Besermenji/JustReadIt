@@ -1,0 +1,2 @@
+module ReadingContentsHelper
+end
