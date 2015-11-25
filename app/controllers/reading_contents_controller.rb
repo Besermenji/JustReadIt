@@ -5,6 +5,9 @@ class ReadingContentsController < ApplicationController
   # GET /reading_contents.json
   def index
     @reading_contents = ReadingContent.all
+    @reading_contents = @reading_contents.reverse
+    @reading_contents = @reading_contents.take(10) unless @reading_contents.length < 10
+      
   end
 
   # GET /reading_contents/1
