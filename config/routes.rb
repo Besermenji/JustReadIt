@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
+  post "stop", to: "main_page#stop"
+  post 'resume', to: "main_page#resume"
+  post 'pause', to: 'main_page#pause'
   post 'getUrl', to: 'main_page#getUrl'
   root "main_page#index"
   # The priority is based upon order of creation: first created -> highest priority.

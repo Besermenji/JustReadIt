@@ -16,13 +16,11 @@
         window.console.log(message);
       }
     };
-
     var pusher = new Pusher('eb7ba3e6d950f8d86a1f', {
       encrypted: true
     });
     var channel = pusher.subscribe('text_streamer');
     channel.bind('my_event', function(data) {
-      
       $('#url').val(data.message);
       $('#url').css("color",data.color);
     });
@@ -64,7 +62,7 @@
 				<div class="col-md-3"></div>
 				<div class="col-md-3">
 	
-				<%=select_tag "speed", options_for_select([ "350wpm", "300wpm", "200wpm" ], "300wpm"),class: "form-control"%> 
+				<%=select_tag "speed", options_for_select([ "200wpm", "175wpm", "150wpm" ], "200wpm"),class: "form-control"%> 
 				</div>
                              <div class="col-md-2">
 				<%=label_tag 'name', 'Randomize colors? ' %>
@@ -83,10 +81,24 @@
 		<div class="col-md-3"></div>
 	</div>
 </div>
-<div class="container-fluid">
+<br>
+<div id="play_pause" class="container-fluid">
         <div class="row">
-                <div id="text_container" class="col-md-12">
+                 <div class="col-md-3"></div>
+                <div id="pause" class="col-md-3">
+                         <%=form_tag("/pause", method: "post",remote:true) do %>
+                             <%= submit_tag "PAUSE", class: "btn btn-default btn-primary center-block" %>
+                        <%end%>          
                 </div>
+                 <div id="resume" class="col-md-3">
+                <%=form_tag("/resume", method: "post",remote:true) do %>
+                             <%= submit_tag "RESUME", class: "btn btn-default btn-primary center-block" %>
+                        <%end%>
+
+                 </div>
+	 
+
+                <div class="col-md-3"></div>
         </div>
 </div>
   </body>

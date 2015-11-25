@@ -9,8 +9,29 @@
 
 
 	<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
-         
-<script src="pusher_stream.js"></script>
+        <script>
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
+    var count = 0;
+    var pusher = new Pusher('eb7ba3e6d950f8d86a1f', {
+      encrypted: true
+    });
+    var channel = pusher.subscribe('text_streamer');
+    channel.bind('my_event', function(data) {
+      if(count == 0 ){
+       $("#button_container").append('<%=button_to "Pause",{ action: "pause"},:method=> :get, remote: true %>');
+
+      }
+      $('#url').val(data.message);
+      $('#url').css("color",data.color);
+      count += 1;
+    });
+  </script> 
+        
   </head>
   <body>
 
@@ -41,6 +62,25 @@
 					 
 					<%= text_field_tag "url",nil,placeholder: "Enter url here!", class: "form-control",type:"url", required:"true" %>
 				</div>
+                                <div class ="form-group">
+                                <div class="container-fluid">
+				<div class="row">
+				<div class="col-md-3"></div>
+				<div class="col-md-3">
+	
+				<%=select_tag "speed", options_for_select([ "200wpm", "175wpm", "150wpm" ], "200wpm"),class: "form-control"%> 
+				</div>
+                             <div class="col-md-2">
+				<%=label_tag 'name', 'Randomize colors? ' %>
+			    </div>
+			    <div class="col-md-1">
+				<%= check_box_tag 'color', 'true'%>
+				</div>
+				<div class="col-md-3"></div>
+
+			        </div>
+				</div>
+                                </div>
 				      <%= submit_tag "ReadIt!", class: "btn btn-default btn-primary center-block" %>  
 			<%end%>
 		</div>
@@ -49,7 +89,7 @@
 </div>
 <div class="container-fluid">
         <div class="row">
-                <div id="text_container" class="col-md-12">
+                <div id="button_container" class="col-md-12">
                 </div>
         </div>
 </div>

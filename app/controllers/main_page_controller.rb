@@ -6,36 +6,51 @@ require 'sanitize'
 require 'rest-client'
 require 'json'
 require 'rufus-scheduler'
+require 'gon'
 class MainPageController < ApplicationController
- # require 'open-uri'
- # require 'nokogiri' 
-
-  def index
+  #index method
+  def index  
   end
-  
+ 
+  #resume method
+  def resume
+   respond_to do|format|
+     format.html {redirect_to root_path}
+     format.js
+   end
+
+  end 
+  #pause method
+  def pause
+   respond_to do|format|
+     format.html {redirect_to root_path}
+     format.js
+   end
+  end
+
+
+ 
   def getUrl
+    #rufus will not work if it was left paused
+    Rufus::Scheduler.singleton.resume if Rufus::Scheduler.singleton.paused?
+    #getting params from form
     @url = params[:url]
     speed_page = params[:speed]
     color = params[:color]
-   # puts "speeeeeeeeeeeeeed ", speed
-   # puts "color_randoooooooom", color_random
-    #initializing variables for parsing page source
+    #some initializing
     agent = Mechanize.new
     page = agent.get(@url)
     title = page.title
     doc = Nokogiri::HTML(page.body)
     #is color randomized or not?
-    color ? color_random = true : color_random = false
-    #what is speed of txt?
-        
-    speed = speed_page[0..2].to_i
-   # puts color_random
-   # puts speed
+    color ? @color_random = true : @color_random = false
+    #what is speed of txt?    
+    @speed = speed_page[0..2].to_i
+    @speed = (60.0/@speed).to_s+'s'
+
     #if url is from medium
     if @url.include? "//medium."
-     # puts "start page"
       @data = doc.css("div.section-inner.layoutSingleColumn")  
-   # elsif @url.include? "//medium."
     #  puts "substart page"
     else
      @data = doc.css('p');
@@ -43,26 +58,15 @@ class MainPageController < ApplicationController
     
     
     @data =  Sanitize.clean(@data)
-    #puts @data
-    #a little regexp for spliting data in words array
-    words = @data.split(/\s/).delete_if(&:blank?)
-    
+    @words_perma = @data.split(/\s/).delete_if(&:blank?)
     # if user is logged in, we save all relevant data to database
     if current_user
       @content = ReadingContent.create(user_id: current_user.id, title: title, content: @data,url: @url)   
    
     end
-  
-    # scheduler = Rufus::Scheduler.new
-     while !words.empty?
-      #calling method for sending json to coloring app
-     # scheduler.in (60.0/speed).to_s + "s" do
-      sendJSON(color_random, words.shift, "http://localhost:4567")
-     # end
-      sleep(60.0/speed)
-    end  
-     #scheduler.shutdown
-     
+     #getting job_id for pausing
+     @job_id = sender
+     puts @job_id
      respond_to do |format|
        format.html {redirect_to root_path}
        format.js {}
@@ -72,7 +76,22 @@ class MainPageController < ApplicationController
      	
   end
 
-  private
+ 
+
+  protected
+  def sender
+      @job_id = Rufus::Scheduler.singleton.schedule_every @speed  do
+       # Rails.logger.info "time flies, it's now #{Time.now}"
+        if !@words_perma.empty?
+          sendJSON(@color_random, @words_perma.shift, "http://localhost:4567")    
+        end
+      end 
+ end
+
+ 
+ 
+  
+  protected
   def sendJSON(color_random, word, color_app_adress)
   # iterate through words and send them to coloring app
     response = RestClient.post color_app_adress + '/word', {:data=> {word: word, color_random: color_random}.to_json},{:content_type =>:json,:accept=> :json}

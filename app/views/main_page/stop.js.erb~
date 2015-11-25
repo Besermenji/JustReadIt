@@ -1,0 +1,3 @@
+<%=Rufus::Scheduler.singleton.pause%>
+<%=Rufus::Scheduler.singleton.at_jobs.each(&:unschedule) %>
+<%=Rufus::Scheduler.singleton.resume%>
