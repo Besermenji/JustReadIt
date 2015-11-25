@@ -10,10 +10,14 @@ require 'gon'
 class MainPageController < ApplicationController
   #index method
   def index  
+    killCurrentJob
   end
  
   #resume method
   def resume
+   #puts session[:job_id]
+   # Rufus::Scheduler.singleton.job(session[:job_id])
+    Rufus::Scheduler.singleton.job(session[:job_id]).resume
    respond_to do|format|
      format.html {redirect_to root_path}
      format.js
@@ -22,6 +26,7 @@ class MainPageController < ApplicationController
   end 
   #pause method
   def pause
+   Rufus::Scheduler.singleton.job(session[:job_id]).pause
    respond_to do|format|
      format.html {redirect_to root_path}
      format.js
@@ -31,8 +36,8 @@ class MainPageController < ApplicationController
 
  
   def getUrl
-    #rufus will not work if it was left paused
-    Rufus::Scheduler.singleton.resume if Rufus::Scheduler.singleton.paused?
+    #kill current rufus job if any
+    killCurrentJob
     #getting params from form
     @url = params[:url]
     speed_page = params[:speed]
@@ -65,7 +70,7 @@ class MainPageController < ApplicationController
    
     end
      #getting job_id for pausing
-     @job_id = sender
+     session[:job_id] = sender
      puts @job_id
      respond_to do |format|
        format.html {redirect_to root_path}
@@ -76,16 +81,25 @@ class MainPageController < ApplicationController
      	
   end
 
- 
+  protected
+  def killCurrentJob
+      if session[:job_id]
+      Rufus::Scheduler.singleton.job(session[:job_id]).unschedule
+      Rufus::Scheduler.singleton.job(session[:job_id]).kill
+      puts "killed him"
+    end
+
+  end 
 
   protected
   def sender
-      @job_id = Rufus::Scheduler.singleton.schedule_every @speed  do
+      job = Rufus::Scheduler.singleton.every @speed  do
        # Rails.logger.info "time flies, it's now #{Time.now}"
         if !@words_perma.empty?
           sendJSON(@color_random, @words_perma.shift, "http://localhost:4567")    
         end
       end 
+      job
  end
 
  
