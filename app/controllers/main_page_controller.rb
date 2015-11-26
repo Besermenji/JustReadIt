@@ -97,9 +97,9 @@ class MainPageController < ApplicationController
   def sender
       job = Rufus::Scheduler.singleton.every @speed  do
         if !@words_perma.empty?
-          sendJSON(@color_random, @words_perma.shift, "http://localhost:4567", @toki)   
+          sendJSON(@color_random, @words_perma.shift, "https://gentle-garden-6420.herokuapp.com/", @toki)   
         else
-          sendJSON(@color_random, "ZenderGenDerBender3342FRY", "http://localhost:4567", @toki)
+          sendJSON(@color_random, "ZenderGenDerBender3342FRY", "https://gentle-garden-6420.herokuapp.com/", @toki)
           killCurrentJob 
         end
       end 
