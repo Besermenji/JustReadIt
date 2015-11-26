@@ -8,6 +8,8 @@ module NavigationHelpers
        "http://localhost:3000"
     when 'recent'
         "/recent"
+    when "signup"
+         "http://localhost:3000/users/sign_up"
     else
       begin
         page_name =~ /the (.*) page/

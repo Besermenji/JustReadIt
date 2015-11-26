@@ -7,7 +7,7 @@ module NavigationHelpers
     when "localhost"
        "http://localhost:3000"
     when 'recent'
-        "localhost:3000/recent"
+        "/recent"
     else
       begin
         page_name =~ /the (.*) page/
