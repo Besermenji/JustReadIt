@@ -1,0 +1,7 @@
+Feature: Click on a link
+	In order to get list of recent read pages
+
+	Scenario: Views recent read pages
+		Given I am on start page
+		When I click "Recent Readings"
+                Then should be on "/recent" page
