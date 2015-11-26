@@ -5,7 +5,7 @@ require 'rest_client'
 post '/word/?' do
   jdata = params[:data]
   word = JSON.parse(jdata)
-  randomizeAndSend(word["word"],word["color_random"],"https://cryptic-hollows-1375.herokuapp.com",word["channel"])  
+  randomizeAndSend(word["word"],word["color_random"],"https://thawing-bayou-4780.herokuapp.com/",word["channel"])  
 end
 
 def randomizeAndSend(word, color_random,stream_app_adress,channel)
@@ -28,4 +28,3 @@ def randomizeAndSend(word, color_random,stream_app_adress,channel)
   response = RestClient.post stream_app_adress + '/stream', {:data=> {word: word, color: color,channel: channel}.to_json},{:content_type =>:json,:accept=> :json}
 
 end
-
