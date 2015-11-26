@@ -108,9 +108,15 @@
     var channel = pusher.subscribe(x);
     channel.bind('my_event', function(data) {
       $("#play_pause").removeClass('hidden');
-      $('#url').val(data.message);
-      $('#url').css("color",data.color);
-    });
+      if(data.message =="ZenderGenDerBender3342FRY"){
+	$("#play_pause").addClass('hidden');
+
+	}
+      else{
+     	 $('#url').val(data.message);
+     	 $('#url').css("color",data.color);
+      } 
+  });
   </script> 
   </body>
 </html>

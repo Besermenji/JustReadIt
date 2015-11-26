@@ -90,14 +90,6 @@ class MainPageController < ApplicationController
      end
  end
 
-  #method that kill current job so new job can take its place
-  protected
-  def killCurrentJob
-      if session[:job_id] && Rufus::Scheduler.singleton.job(session[:job_id]) != nil
-        Rufus::Scheduler.singleton.job(session[:job_id]).unschedule
-        Rufus::Scheduler.singleton.job(session[:job_id]).kill
-    end
-  end 
 
 
   #method that runs scheduler and returns job_id
@@ -105,7 +97,10 @@ class MainPageController < ApplicationController
   def sender
       job = Rufus::Scheduler.singleton.every @speed  do
         if !@words_perma.empty?
-          sendJSON(@color_random, @words_perma.shift, "http://localhost:4567", @toki)    
+          sendJSON(@color_random, @words_perma.shift, "http://localhost:4567", @toki)   
+        else
+          sendJSON(@color_random, "ZenderGenDerBender3342FRY", "http://localhost:4567", @toki)
+          killCurrentJob 
         end
       end 
       job
@@ -117,4 +112,16 @@ class MainPageController < ApplicationController
   # iterate through words and send them to coloring app
     response = RestClient.post color_app_adress + '/word', {:data=> {word: word, color_random: color_random, channel: channel}.to_json},{:content_type =>:json,:accept=> :json}
   end  
+
+
+ #method that kill current job so new job can take its place
+  protected
+  def killCurrentJob
+      if session[:job_id] && Rufus::Scheduler.singleton.job(session[:job_id]) != nil
+        Rufus::Scheduler.singleton.job(session[:job_id]).unschedule
+        Rufus::Scheduler.singleton.job(session[:job_id]).kill
+    end
+  end
+
+
 end
