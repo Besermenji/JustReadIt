@@ -1,5 +1,9 @@
 # JustReadIt
 
+##Link do aplikacije na heroku
+
+https://calm-crag-4999.herokuapp.com/
+
 
 # Web aplikacija
 
