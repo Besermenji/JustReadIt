@@ -1,5 +1,10 @@
 # JustReadIt
 
+##Link do aplikacije na heroku
+
+https://calm-crag-4999.herokuapp.com/
+
+
 # Web aplikacija
 
 ## Ukratko
@@ -44,11 +49,19 @@ Treba da uključuje sledeću funkcionalnost:
 
 #### 2 - Farbanje teksta - Sinatra aplikacija
 
-Prima tekst, menja mu boju i šalje ga u mikroservis za strimovanje teksta
+Prima tekst, menja mu boju i šalje ga u mikroservis za strimovanje teksta.
+
+Repozitorijum ove aplikacije se nalazi na linku: https://github.com/Besermenji/Color-Randomizer
+
+Aplikacija je deployovana na heroku i nalazi se na linku: https://gentle-garden-6420.herokuapp.com
 
 #### 3 - Strimovanje teksta korisniku
 
 Sinatra aplikacija koja prima ofarbani tekst reč po reč i šalje ga korisniku u browser uz pomoć websocket-a. Koristiti Pusher https://pusher.com.
+
+Repozitorijum ove aplikacije se nalazi na linku: https://github.com/Besermenji/Text-Streamer
+
+Aplikacija je deployovana na heroku i nalazi se na linku: https://cryptic-hollows-1375.herokuapp.com/
 
 ## Napomene
 
