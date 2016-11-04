@@ -8,7 +8,7 @@
  
 
 
-	<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+  <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
  
         
   </head>
@@ -17,57 +17,57 @@
 
 
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="jumbotron well">
-				<h2>
-					Do you want to <strong>JustReadIt</strong>?
-				</h2>
-				<br>
-				<p>
-					Just paste your link, and i will read it to you! Click on <strong>ReadIt!</strong> button to start!
-				</p>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="jumbotron well">
+        <h2>
+          Do you want to <strong>JustReadIt</strong>?
+        </h2>
+        <br>
+        <p>
+          Just paste your link, and i will read it to you! Click on <strong>ReadIt!</strong> button to start!
+        </p>
 
-					
+          
 
-			</div>
-		</div>
-	</div>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-md-6">
-			<%=form_tag("/getUrl", method: "post",remote:true) do %>
-				<div class="form-group">
-					 
-					<%= text_field_tag "url",nil,placeholder: "Enter url here!", class: "form-control",type:"url", required:"true" %>
-				</div>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <%=form_tag("/getUrl", method: "post",remote:true) do %>
+        <div class="form-group">
+           
+          <%= text_field_tag "url",nil,placeholder: "Enter url here!", class: "form-control",type:"url", required:"true" %>
+        </div>
                                 <div class ="form-group">
                                 <div class="container-fluid">
-				<div class="row">
-				<div class="col-md-3"></div>
-				<div class="col-md-3">
-	
-				<%=select_tag "speed", options_for_select([ "200wpm", "175wpm", "150wpm" ], "200wpm"),class: "form-control"%> 
-				</div>
+        <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-3">
+  
+        <%=select_tag "speed", options_for_select([ "200wpm", "175wpm", "150wpm" ], "200wpm"),class: "form-control"%> 
+        </div>
                              <div class="col-md-2">
-				<%=label_tag 'name', 'Randomize colors? ' %>
-			    </div>
-			    <div class="col-md-1">
-				<%= check_box_tag 'color', 'true'%>
-				</div>
-				<div class="col-md-3"></div>
+        <%=label_tag 'name', 'Randomize colors? ' %>
+          </div>
+          <div class="col-md-1">
+        <%= check_box_tag 'color', 'true'%>
+        </div>
+        <div class="col-md-3"></div>
 
-			        </div>
-				</div>
+              </div>
+        </div>
                                 </div>
                                      <%=hidden_field_tag 'token' %>
-				      <%= submit_tag "ReadIt!", class: "btn btn-default btn-primary center-block" %>  
-			<%end%>
-		</div>
-		<div class="col-md-3"></div>
-	</div>
+              <%= submit_tag "ReadIt!", class: "btn btn-default btn-primary center-block" %>  
+      <%end%>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
 </div>
 <br>
 <div id="play_pause" class="container-fluid hidden">
@@ -84,7 +84,7 @@
                         <%end%>
 
                  </div>
-	 
+   
 
                 <div class="col-md-3"></div>
         </div>
@@ -109,12 +109,12 @@
     channel.bind('my_event', function(data) {
       $("#play_pause").removeClass('hidden');
       if(data.message =="ZenderGenDerBender3342FRY"){
-	$("#play_pause").addClass('hidden');
+  $("#play_pause").addClass('hidden');
 
-	}
+  }
       else{
-     	 $('#url').val(data.message);
-     	 $('#url').css("color",data.color);
+       $('#url').val(data.message);
+       $('#url').css("color",data.color);
       } 
   });
   </script> 
